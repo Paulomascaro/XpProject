@@ -25,12 +25,12 @@ for index, row in hist.iterrows():
 hist['Daily Change (%)'] = (hist['Close'] - hist['Open']) / hist['Open'] * 100
 
 # Exibir análise diária para um intervalo específico
-daily_analysis = hist.loc[date_time_inicial:date_time_final]
-print(daily_analysis[['Open', 'Close', 'Daily Change (%)', 'Volume']])
+hist_diario = hist.loc[date_time_inicial:date_time_final]
+print(hist_diario[['Open', 'Close', 'Daily Change (%)', 'Volume']])
 
 
 # Resample para semanal e calcular variações e volumes
-weekly_analysis = hist.resample('W').agg({
+hist_semanal = hist.resample('W').agg({
     'Open': 'first',
     'Close': 'last',
     'High': 'max',
@@ -39,13 +39,13 @@ weekly_analysis = hist.resample('W').agg({
 })
 
 # Calcular variação semanal
-weekly_analysis['Weekly Change (%)'] = (weekly_analysis['Close'] - weekly_analysis['Open']) / weekly_analysis['Open'] * 100
+hist_semanal['Weekly Change (%)'] = (hist_semanal['Close'] - hist_semanal['Open']) / hist_semanal['Open'] * 100
 
-print(weekly_analysis[['Open', 'Close', 'Weekly Change (%)', 'Volume']])
+print(hist_semanal[['Open', 'Close', 'Weekly Change (%)', 'Volume']])
 
 
 # Resample para mensal e calcular variações e volumes
-monthly_analysis = hist.resample('M').agg({
+hist_mensal = hist.resample('M').agg({
     'Open': 'first',
     'Close': 'last',
     'High': 'max',
@@ -54,12 +54,12 @@ monthly_analysis = hist.resample('M').agg({
 })
 
 # Calcular variação mensal
-monthly_analysis['Monthly Change (%)'] = (monthly_analysis['Close'] - monthly_analysis['Open']) / monthly_analysis['Open'] * 100
-print(monthly_analysis[['Open', 'Close', 'Monthly Change (%)', 'Volume']])
+hist_mensal['Monthly Change (%)'] = (hist_mensal['Close'] - hist_mensal['Open']) / hist_mensal['Open'] * 100
+print(hist_mensal[['Open', 'Close', 'Monthly Change (%)', 'Volume']])
 
 
 # Resample para anual e calcular variações e volumes
-annual_analysis = hist.resample('A').agg({
+hist_anual = hist.resample('A').agg({
     'Open': 'first',
     'Close': 'last',
     'High': 'max',
@@ -68,9 +68,9 @@ annual_analysis = hist.resample('A').agg({
 })
 
 # Calcular variação anual
-annual_analysis['Yearly Change (%)'] = (annual_analysis['Close'] - annual_analysis['Open']) / annual_analysis['Open'] * 100
+hist_anual['Yearly Change (%)'] = (hist_anual['Close'] - hist_anual['Open']) / hist_anual['Open'] * 100
 
-print(annual_analysis[['Open', 'Close', 'Yearly Change (%)', 'Volume']])
+print(hist_anual[['Open', 'Close', 'Yearly Change (%)', 'Volume']])
 
 
 
