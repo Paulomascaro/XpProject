@@ -2,6 +2,10 @@ import yfinance as yf
 import pytz
 import pandas as pd
 
+from analise_diaria import analise_diaria, validar_data
+from analise_mensal import analise_mensal
+from analise_semanal import analise_semanal
+
 # Definir o fuso horário de Brasília
 brasilia_tz = pytz.timezone('Etc/GMT-3')
 
@@ -13,8 +17,8 @@ hist = santander.history(period="5y")
 hist.index = hist.index.tz_convert(brasilia_tz)
 
 # Definir os timestamps iniciais e finais no fuso horário de Brasília
-date_time_inicial = pd.Timestamp('2020-01-06', tz=brasilia_tz)
-date_time_final = pd.Timestamp('2020-12-31T12', tz=brasilia_tz)
+date_time_inicial = pd.Timestamp('2019-01-01', tz=brasilia_tz)
+date_time_final = pd.Timestamp('2024-08-30T12', tz=brasilia_tz)
 
 # Iterar sobre o dataframe
 for index, row in hist.iterrows():
@@ -41,7 +45,7 @@ hist_semanal = hist.resample('W').agg({
 # Calcular variação semanal
 hist_semanal['Weekly Change (%)'] = (hist_semanal['Close'] - hist_semanal['Open']) / hist_semanal['Open'] * 100
 
-print(hist_semanal[['Open', 'Close', 'Weekly Change (%)', 'Volume']])
+# print(hist_semanal[['Open', 'Close', 'Weekly Change (%)', 'Volume']])
 
 
 # Resample para mensal e calcular variações e volumes
@@ -55,7 +59,7 @@ hist_mensal = hist.resample('M').agg({
 
 # Calcular variação mensal
 hist_mensal['Monthly Change (%)'] = (hist_mensal['Close'] - hist_mensal['Open']) / hist_mensal['Open'] * 100
-print(hist_mensal[['Open', 'Close', 'Monthly Change (%)', 'Volume']])
+# print(hist_mensal[['Open', 'Close', 'Monthly Change (%)', 'Volume']])
 
 
 # Resample para anual e calcular variações e volumes
@@ -69,8 +73,24 @@ hist_anual = hist.resample('A').agg({
 
 # Calcular variação anual
 hist_anual['Yearly Change (%)'] = (hist_anual['Close'] - hist_anual['Open']) / hist_anual['Open'] * 100
+# print(hist_anual[['Open', 'Close', 'Yearly Change (%)', 'Volume']])
 
-print(hist_anual[['Open', 'Close', 'Yearly Change (%)', 'Volume']])
+print("###############INICIO WHILE#############\n\n\n")
+while True:
+    data_inicio = input('Digite a data de início (YYYY-MM-DD): ')
+    data_fim = input('Digite a data de fim (YYYY-MM-DD): ')
 
+    if not (validar_data(data_inicio) and validar_data(data_fim)):
+        print("Data inválida. Por favor, use o formato YYYY-MM-DD.")
+        continue
 
+    if data_inicio > data_fim:
+        print("A data de início não pode ser posterior à data de fim.")
+        continue
+
+    # analise_diaria(data_inicio, data_fim)
+    # analise_semanal(data_inicio, data_fim)
+    analise_mensal(data_inicio, data_fim)
+
+    break
 

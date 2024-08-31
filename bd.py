@@ -10,3 +10,4 @@ hist_diario.to_sql('hist_diario', con=engine, if_exists='replace', index=True)
 hist_semanal.to_sql('hist_semanal', con=engine, if_exists='replace', index=True)
 hist_mensal.to_sql('hist_mensal', con=engine, if_exists='replace', index=True)
 hist_anual.to_sql('hist_anual', con=engine, if_exists='replace', index=True)
+
