@@ -75,22 +75,33 @@ hist_anual = hist.resample('A').agg({
 hist_anual['Yearly Change (%)'] = (hist_anual['Close'] - hist_anual['Open']) / hist_anual['Open'] * 100
 # print(hist_anual[['Open', 'Close', 'Yearly Change (%)', 'Volume']])
 
-print("###############INICIO WHILE#############\n\n\n")
-while True:
+
+while op != 0:
+    print("####### MENU #######")
+    op = int(input("Digite a opção desejada: "
+             "1 - Analise Diaria"
+             "2 - Analise Semanal"
+             "3 - Analise Mensal"
+             "0 - Sair"))
+
     data_inicio = input('Digite a data de início (YYYY-MM-DD): ')
     data_fim = input('Digite a data de fim (YYYY-MM-DD): ')
-
     if not (validar_data(data_inicio) and validar_data(data_fim)):
         print("Data inválida. Por favor, use o formato YYYY-MM-DD.")
-        continue
 
     if data_inicio > data_fim:
         print("A data de início não pode ser posterior à data de fim.")
-        continue
 
-    # analise_diaria(data_inicio, data_fim)
-    # analise_semanal(data_inicio, data_fim)
-    analise_mensal(data_inicio, data_fim)
+    if op == 1:
+        analise_diaria(data_inicio, data_fim)
 
-    break
+    elif op == 2:
+        analise_semanal(data_inicio, data_fim)
+
+    elif op == 3:
+        analise_mensal(data_inicio, data_fim)
+
+    elif op == 0:
+        break
+
 
